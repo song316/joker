@@ -50,11 +50,6 @@ CentreControl::~CentreControl(void)
 
 void CentreControl::startButtonClicked()
 {
-    qDebug() << isInit << "......";
-    if(1 == isInit){
-        return;
-    }
-    isInit = 1;
     //删除开始按钮
     delete startButton;
     //定义三人的牌和底牌，并排序
