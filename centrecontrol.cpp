@@ -1,5 +1,7 @@
 ﻿#pragma warning(disable: 4819)
 #include "centrecontrol.h"
+#include "cardutil.h"
+
 CentreControl *CentreControl::m_instance = 0;
 
 CentreControl::CentreControl(QWidget *parent) :
@@ -10,7 +12,8 @@ CentreControl::CentreControl(QWidget *parent) :
     startButton = NULL;
     handerIndex = 0;
     master = 0;
-    isInit = 0;
+    leftUser = NULL;
+    rightUser = NULL;
 
     setFixedSize(1000,700);
     scene = new QGraphicsScene();
@@ -46,6 +49,8 @@ CentreControl::~CentreControl(void)
     view = NULL;
     scene = NULL;
     startButton = NULL;
+    leftUser = NULL;
+    rightUser = NULL;
 }
 
 void CentreControl::startButtonClicked()
@@ -93,7 +98,7 @@ void CentreControl::startButtonClicked()
     QRectF rect = rightHead->boundingRect();
     rightHead->setTransformOriginPoint(rect.x()+(rect.width())/2,rect.y()+(rect.height())/2);
     rightHead->setRotation(90);
-    UserThread *rightUser = new UserThread();
+    rightUser = new UserThread();
     rightUser->index = 2;
     QPoint *rightPos = new QPoint(420,195);
     rightUser->init(rightCard,rightPos,rightHead);
@@ -105,7 +110,7 @@ void CentreControl::startButtonClicked()
     QGraphicsPixmapItem *leftHead = new QGraphicsPixmapItem();
     leftHead->setPixmap(QPixmap(leftHeadImage));
     leftHead->setPos(30,10);
-    UserThread *leftUser = new UserThread();
+    leftUser = new UserThread();
     leftUser->index = 3;
     QPoint *leftPos =new QPoint(30,195);
     leftUser->init(leftCard,leftPos,leftHead);

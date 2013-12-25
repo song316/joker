@@ -1,5 +1,5 @@
-#ifndef JOKER_H
-#define JOKER_H
+﻿#ifndef JOKERVIEW_H
+#define JOKERVIEW_H
 
 #include <QGraphicsView>
 
@@ -13,4 +13,4 @@ public:
     void init();
 };
 
-#endif // JOKER_H
+#endif // JOKERVIEW_H

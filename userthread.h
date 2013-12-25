@@ -1,14 +1,10 @@
-﻿#ifndef LEFTUSER_H
-#define LEFTUSER_H
+﻿#ifndef USERTHREAD_H
+#define USERTHREAD_H
 
 #include <QThread>
 #include <QGraphicsPixmapItem>
 #include <QPoint>
 #include "carditem.h"
-//#include <buttonitem.h>
-#include "centrecontrol.h"
-#include "cardutil.h"
-#include "timeritem.h"
 class UserThread : public QThread
 {
     Q_OBJECT
@@ -36,4 +32,4 @@ public slots:
     void someOneTakeout();
 };
 
-#endif // LEFTUSER_H
+#endif // USERTHREAD_H

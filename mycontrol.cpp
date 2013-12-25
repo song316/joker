@@ -81,10 +81,13 @@ void MyControl::initGame(QList<CardItem*> itemList)
 void MyControl::takeout()
 {
     if(myHandCardMap.size() <= 0){
-        errorTip = new QGraphicsPixmapItem();
-        errorTip->setPixmap(QPixmap(":images/image/error.png"));
-        errorTip->setPos(350,600);
-        CentreControl::getInstance()->addItem(errorTip);
+//        errorTip = new QGraphicsPixmapItem();
+//        errorTip->setPixmap(QPixmap(":images/image/error.png"));
+//        errorTip->setPos(350,600);
+//        CentreControl::getInstance()->addItem(errorTip);
+        tip = new TipItem();
+        tip->setPos(350,600);
+        CentreControl::getInstance()->addItem(tip);
         return;
     }
     QMap<QString, CardItem*>::const_iterator i;

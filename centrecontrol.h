@@ -5,11 +5,9 @@
 #include <QMutexLocker>
 #include <QDebug>
 #include <QGraphicsScene>
-#include "carditem.h"
-#include "cardutil.h"
+#include "userthread.h"
 #include "jokerview.h"
 #include "buttonitem.h"
-#include "userthread.h"
 class CentreControl : public QMainWindow
 {
     Q_OBJECT
@@ -38,6 +36,9 @@ public:
 public:
     int handerIndex;
     QList<CardItem*> preCardList;
+    UserThread *leftUser;
+    UserThread *rightUser;
+
 private:
     static CentreControl* m_instance;
     JokerView *view;

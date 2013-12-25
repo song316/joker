@@ -20,7 +20,8 @@ SOURCES += main.cpp \
     userthread.cpp \
     mycontrol.cpp \
     centrecontrol.cpp \
-    timeritem.cpp
+    timeritem.cpp \
+    tipitem.cpp
 
 HEADERS  += \
     jokerview.h \
@@ -30,7 +31,8 @@ HEADERS  += \
     userthread.h \
     mycontrol.h \
     centrecontrol.h \
-    timeritem.h
+    timeritem.h \
+    tipitem.h
 
 RESOURCES += \
     resources.qrc

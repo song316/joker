@@ -3,7 +3,6 @@
 #include <QPixmap>
 #include <QGraphicsPixmapItem>
 #include <QTimerEvent>
-#include "centrecontrol.h"
 class TimerItem : public QGraphicsPixmapItem,public QObject
 {
 public:

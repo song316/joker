@@ -1,5 +1,5 @@
 ﻿#include "timeritem.h"
-
+#include "centrecontrol.h"
 TimerItem::TimerItem()
 {
     timeCount = 9;

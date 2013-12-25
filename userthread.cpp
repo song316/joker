@@ -1,6 +1,8 @@
 ﻿#pragma warning(disable: 4819)
 #include "userthread.h"
-
+#include "cardutil.h"
+#include "timeritem.h"
+#include "centrecontrol.h"
 UserThread::UserThread(QObject *parent) :
     QThread(parent)
 {

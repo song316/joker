@@ -10,6 +10,7 @@
 #include <QPoint>
 #include "carditem.h"
 #include "buttonitem.h"
+#include "tipitem.h"
 
 class MyControl : public QObject
 {
@@ -19,6 +20,8 @@ public:
     ~MyControl();
     void flashMyCardList();
     void timerEvent(QTimerEvent *event);
+
+    TipItem *tip;
 protected:
     QList<CardItem *> myCard;
     QMap<QString,CardItem *> myHandCardMap;
@@ -29,6 +32,7 @@ protected:
     ButtonItem *tipButton;
     ButtonItem * takeoutButton;
     int showCardIndex;
+
 signals:
     void takeouted();
 public slots:
