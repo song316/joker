@@ -44,7 +44,6 @@ private:
     QGraphicsScene *scene;
     ButtonItem * startButton;
     int master;
-    int isInit;
 signals:
     void startGame(QList<CardItem*> itemList);
     void someOneTakeout();
