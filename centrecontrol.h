@@ -1,10 +1,10 @@
 ﻿#ifndef CENTRECONTROL_H
 #define CENTRECONTROL_H
-#include <QMainWindow>
-#include <QMutex>
-#include <QMutexLocker>
-#include <QDebug>
-#include <QGraphicsScene>
+#include <QtWidgets/QMainWindow>
+#include <QtCore/QMutex>
+#include <QtCore/QMutexLocker>
+#include <QtCore/QDebug>
+#include <QtWidgets/QGraphicsScene>
 #include "userthread.h"
 #include "jokerview.h"
 #include "buttonitem.h"

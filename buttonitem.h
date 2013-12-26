@@ -1,7 +1,7 @@
 ﻿#ifndef BUTTONITEM_H
 #define BUTTONITEM_H
-#include <QGraphicsObject>
-#include <QPainter>
+#include <QtWidgets/QGraphicsObject>
+#include <QtGui/QPainter>
 class ButtonItem:
         public QGraphicsObject
 {

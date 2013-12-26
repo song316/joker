@@ -1,8 +1,8 @@
 ﻿#ifndef TIPITEM_H
 #define TIPITEM_H
 
-#include <QGraphicsPixmapItem>
-#include <QTimerEvent>
+#include <QtWidgets/QGraphicsPixmapItem>
+#include <QtCore/QTimerEvent>
 #include "centrecontrol.h"
 class TipItem : public QGraphicsPixmapItem,QObject
 {

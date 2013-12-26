@@ -1,7 +1,7 @@
 ﻿#ifndef CARDITEM_H
 #define CARDITEM_H
 
-#include <QGraphicsObject>
+#include <QtWidgets/QGraphicsObject>
 class CardItem :
     public QGraphicsObject
 {

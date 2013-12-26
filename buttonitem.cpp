@@ -1,5 +1,5 @@
 ﻿#include "buttonitem.h"
-#include <QMessageBox>
+#include <QtWidgets/QMessageBox>
 ButtonItem::ButtonItem(QGraphicsItem *parent):QGraphicsObject(parent)
 {
     picShowPos = 0;

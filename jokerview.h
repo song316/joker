@@ -1,7 +1,7 @@
 ﻿#ifndef JOKERVIEW_H
 #define JOKERVIEW_H
 
-#include <QGraphicsView>
+#include <QtWidgets/QGraphicsView>
 
 class JokerView : public QGraphicsView
 {

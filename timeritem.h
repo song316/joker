@@ -1,8 +1,8 @@
 ﻿#ifndef TIMERITEM_H
 #define TIMERITEM_H
-#include <QPixmap>
-#include <QGraphicsPixmapItem>
-#include <QTimerEvent>
+#include <QtGui/QPixmap>
+#include <QtWidgets/QGraphicsPixmapItem>
+#include <QtCore/QTimerEvent>
 class TimerItem : public QGraphicsPixmapItem,public QObject
 {
 public:

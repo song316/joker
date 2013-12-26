@@ -1,8 +1,8 @@
 ﻿#include "carditem.h"
-#include <QPainter>
-#include <QColor>
-#include <QGraphicsSceneMouseEvent>
-#include <QDebug>
+#include <QtGui/QPainter>
+#include <QtGui/QColor>
+#include <QtWidgets/QGraphicsSceneMouseEvent>
+#include <QtCore/QDebug>
 CardItem::CardItem(QGraphicsItem *parent): QGraphicsObject(parent)
 {
     setFlag(QGraphicsItem::ItemIsSelectable,true);

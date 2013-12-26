@@ -1,4 +1,5 @@
-﻿#include <QApplication>
+﻿#include <QtWidgets/QApplication>
+#include <QtCore/QObject>
 #include "centrecontrol.h"
 #include "mycontrol.h"
 int main(int argc, char *argv[])

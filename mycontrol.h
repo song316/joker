@@ -1,13 +1,13 @@
 ﻿#ifndef MYCONTROL_H
 #define MYCONTROL_H
 
-#include <QObject>
-#include <QList>
-#include <QMap>
-#include <QSound>
-#include <QTimerEvent>
-#include <QGraphicsPixmapItem>
-#include <QPoint>
+#include <QtCore/QObject>
+#include <QtCore/QList>
+#include <QtCore/QMap>
+#include <QtMultimedia/QSound>
+#include <QtCore/QTimerEvent>
+#include <QtWidgets/QGraphicsPixmapItem>
+#include <QtCore/QPoint>
 #include "carditem.h"
 #include "buttonitem.h"
 #include "tipitem.h"

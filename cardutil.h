@@ -1,8 +1,8 @@
 #ifndef CARDUTIL_H
 #define CARDUTIL_H
 #include "carditem.h"
-#include <QList>
-#include <QTime>
+#include <QtCore/QList>
+#include <QtCore/QTime>
 enum CardType{
     DAN,DUI_ZI,ZHA_DAN,
     SAN_DAI_YI,SAN_BU_DAI,SHUN_ZI,

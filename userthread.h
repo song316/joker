@@ -1,9 +1,9 @@
 ﻿#ifndef USERTHREAD_H
 #define USERTHREAD_H
 
-#include <QThread>
-#include <QGraphicsPixmapItem>
-#include <QPoint>
+#include <QtCore/QThread>
+#include <QtWidgets/QGraphicsPixmapItem>
+#include <QtCore/QPoint>
 #include "carditem.h"
 class UserThread : public QThread
 {
