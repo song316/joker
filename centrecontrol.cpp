@@ -166,10 +166,18 @@ void CentreControl::showPreCardList(QList<CardItem*> &cardList)
 {
     //删除已出牌。
     if(preCardList.size() > 0){
-        foreach(CardItem *item,preCardList){
-            scene->removeItem(item);
-            delete item;
-        }
+		for(int i=0;i<preCardList.size();i++){
+			CardItem *item = preCardList.at(i);
+			if(item != NULL){
+				scene->removeItem(item);
+				delete item;
+			}
+		}
+
+        //foreach(CardItem *item,preCardList){
+        //    scene->removeItem(item);
+        //    delete item;
+       // }
     }
     this->preCardList = cardList;
     int x = 230;

@@ -774,7 +774,7 @@ bool CardUtil::isOvercomePrev(QList<CardItem *> myCards,
  * @return
  */
 CardType CardUtil::getCardType(QList<CardItem *> myCards) {
-    CardType cardType;
+    CardType cardType = UNKNOW;
     // 大概率事件放前边，提高命中率
     if (isDan(myCards)) {
         cardType = DAN;
