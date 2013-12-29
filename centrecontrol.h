@@ -35,6 +35,7 @@ public:
 public:
     int handerIndex;
     QList<CardItem*> preCardList;
+	QList<CardItem*> newPreCardList;
     UserThread *leftUser;
     UserThread *rightUser;
 
@@ -50,7 +51,7 @@ signals:
 public slots:
     void startButtonClicked();
     void takeouted();
-	void showPreCardList(QList<CardItem*> &cardList);
+	void showPreCardList();
 };
 
 #endif // CENTRECONTROL_H

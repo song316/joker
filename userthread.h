@@ -28,7 +28,8 @@ public:
 
 signals:
     void takeouted();
-	void showPreCardList(QList<CardItem*> &cardList);
+	void sig_showPreCardList();
+
 public slots:
     
 };

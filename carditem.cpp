@@ -57,12 +57,12 @@ void CardItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
-void CardItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-    qDebug() << event->pos().x() << "," << event->pos().y();
-}
-
-void CardItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-
-}
+//void CardItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+//{
+//    qDebug() << event->pos().x() << "," << event->pos().y();
+//}
+//
+//void CardItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+//{
+//
+//}

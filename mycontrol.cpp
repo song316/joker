@@ -92,10 +92,11 @@ void MyControl::takeout()
 		{
 			myCardList.removeOne(i.value());
 			CentreControl::getInstance()->removeItem(i.value());
+			CentreControl::getInstance()->newPreCardList.append(i.value());
 		}
 		//显示已出牌到出牌区
-		QList<CardItem*> perList = myHandCardMap.values();
-		CentreControl::getInstance()->showPreCardList(perList);
+		//QList<CardItem*> perList = myHandCardMap.values();
+		CentreControl::getInstance()->showPreCardList();
 		//清除已选牌map，并更新手牌显示。
 		myHandCardMap.clear();
 		flashMyCardList();

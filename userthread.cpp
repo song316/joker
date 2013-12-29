@@ -45,12 +45,13 @@ void UserThread::run()
         if(index == CentreControl::getInstance()->handerIndex){
             QThread::msleep(3000);
             //随便出一张.
-            QList<CardItem *> handList;
+            /*QList<CardItem *> handList;*/
             CardItem *item = myCardList.takeLast();
             item->isFront = true;
-            handList << item;
+            //handList << item;
 			CentreControl::getInstance()->removeItem(item);
-			emit showPreCardList(handList);
+			CentreControl::getInstance()->newPreCardList.append(item);
+			emit sig_showPreCardList();
             CentreControl::getInstance()->updateScene();
             emit takeouted();
         }
