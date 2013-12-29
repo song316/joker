@@ -52,8 +52,6 @@
         <file>image/13b.png</file>
         <file>image/13c.png</file>
         <file>image/13d.png</file>
-        <file>image/a.png</file>
-        <file>image/b.png</file>
         <file>image/background.jpg</file>
         <file>image/cardbk.png</file>
         <file>image/error.png</file>
@@ -66,6 +64,8 @@
         <file>image/wndRight.png</file>
         <file>image/farmers.png</file>
         <file>image/score_minus.png</file>
+        <file>image/14a.png</file>
+        <file>image/15a.png</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>sound/sendcard.wav</file>

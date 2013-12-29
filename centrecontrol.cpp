@@ -55,7 +55,8 @@ CentreControl::~CentreControl(void)
 
 void CentreControl::startButtonClicked()
 {
-    //删除开始按钮
+	//删除开始按钮
+	scene->removeItem(startButton);
     delete startButton;
     //定义三人的牌和底牌，并排序
     QList<CardItem *> myCard;
@@ -102,7 +103,6 @@ void CentreControl::startButtonClicked()
     rightUser->index = 2;
     QPoint *rightPos = new QPoint(420,195);
     rightUser->init(rightCard,rightPos,rightHead);
-//    connect(this,SIGNAL(someOneTakeout()),rightUser,SLOT(someOneTakeout()));
     connect(rightUser,SIGNAL(takeouted()),this,SLOT(takeouted()));
     rightUser->start();
 
@@ -114,7 +114,6 @@ void CentreControl::startButtonClicked()
     leftUser->index = 3;
     QPoint *leftPos =new QPoint(30,195);
     leftUser->init(leftCard,leftPos,leftHead);
-//    connect(this,SIGNAL(someOneTakeout()),leftUser,SLOT(someOneTakeout()));
     connect(leftUser,SIGNAL(takeouted()),this,SLOT(takeouted()));
     leftUser->start();
     //发送开始游戏信号。
@@ -161,7 +160,9 @@ void CentreControl::updateScene()
 {
     scene->update(0,0,998,698);
 }
-
+/**
+*更新并显示当前已出牌
+*/
 void CentreControl::showPreCardList(QList<CardItem*> &cardList)
 {
     //删除已出牌。
@@ -170,27 +171,26 @@ void CentreControl::showPreCardList(QList<CardItem*> &cardList)
 			CardItem *item = preCardList.at(i);
 			if(item != NULL){
 				scene->removeItem(item);
-				delete item;
 			}
 		}
-
-        //foreach(CardItem *item,preCardList){
-        //    scene->removeItem(item);
-        //    delete item;
-       // }
+		//delete旧的已出牌。并清理perCardList.
+		qDeleteAll(preCardList);
+		preCardList.clear();
     }
-    this->preCardList = cardList;
+    preCardList = cardList;
+	//qDeleteAll(cardList);
+	cardList.clear();
+	
     int x = 230;
     int y = 100;
     int j = 0;
-    foreach (CardItem *item, preCardList) {
-        item->setPos(QPoint(x+j*15,y));
+	for(int i=0;i<preCardList.size();i++){
+		CardItem *item = preCardList.at(i);
+		item->setPos(QPoint(x+j*15,y));
         item->setScale(0.8);
-        item->update(item->boundingRect());
         item->setSelected(false);
         scene->addItem(item);
-        j++;
-    }
+	}
 }
 
 void CentreControl::takeouted()

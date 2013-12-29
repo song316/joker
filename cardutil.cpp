@@ -18,15 +18,15 @@ bool CardUtil::lessThan(const CardItem *ci1, const CardItem *ci2)
         if(ci1->cardType < ci2->cardType){
             return true;
         }
-    }else if(((cn1==1 || cn1==2 || cn1==14) && (cn2==1 || cn2==2 || cn2==14))
+    }else if(((cn1==1 || cn1==2 || cn1==14 || cn1==15) && (cn2==1 || cn2==2 || cn2==14 || cn2==15))
              || (cn1>2 && cn1<14 && cn2>2 && cn2<14)){
         if(cn1>cn2){
             return true;
         }
         return false;
-    }else if((cn1==1 || cn1==2 || cn1==14) && (cn2>2 && cn2<14)){
+    }else if((cn1==1 || cn1==2 || cn1==14 || cn1 == 15) && (cn2>2 && cn2<14)){
         return true;
-    }else if((cn2==1 || cn2==2 || cn2==14) && (cn1>2 && cn1<14)){
+    }else if((cn2==1 || cn2==2 || cn2==14 || cn2 == 15) && (cn1>2 && cn1<14)){
         return false;
     }
     return false;
@@ -106,16 +106,16 @@ QList<CardItem *> CardUtil::makeAllCard()
         itemList.append(itemd);
     }
     CardItem *itema = new CardItem();
-    itema->fkPic = QPixmap(":images/image/a.png");
+    itema->fkPic = QPixmap(":images/image/14a.png");
     itema->CardNum = 14;
     itema->cardType = "a";
     itema->setSelected(true);
     itemList.append(itema);
 
     CardItem *itemb = new CardItem();
-    itemb->fkPic = QPixmap(":images/image/b.png");
-    itemb->CardNum = 14;
-    itemb->cardType = "b";
+    itemb->fkPic = QPixmap(":images/image/15a.png");
+    itemb->CardNum = 15;
+    itemb->cardType = "a";
     itemb->setSelected(true);
     itemList.append(itemb);
     return itemList;
@@ -265,8 +265,8 @@ bool CardUtil::isDuiWang(QList<CardItem *> myCards) {
     if (myCards.size() == 2) {
         int gradeOne = myCards.at(0)->CardNum;
         int gradeTwo = myCards.at(1)->CardNum;
-        // 只有小王和大王的等级之后才可能是33
-        if (gradeOne + gradeTwo == 33) {
+        // 只有小王和大王的等级之后才可能是29
+        if (gradeOne + gradeTwo == 29) {
             flag = true;
         }
     }
@@ -416,7 +416,10 @@ bool CardUtil::isSiDaiEr(QList<CardItem *> myCards) {
 * @return 可以出牌，返回true；否则，返回false。
 */
 bool CardUtil::isOvercomePrev(QList<CardItem *> myCards, CardType myCardType, QList<CardItem *> prevCards, CardType prevCardType) {
-    // 上一首牌的个数
+	if(myCardType == UNKNOW){
+		return false;
+	}
+	// 上一首牌的个数
     int prevSize = prevCards.size();
     int mySize = myCards.size();
 
@@ -453,46 +456,40 @@ bool CardUtil::isOvercomePrev(QList<CardItem *> myCards, CardType myCardType, QL
     // 单
     if (prevCardType == DAN && myCardType == DAN) {
         // 一张牌可以大过上家的牌
-        return myGrade>prevGrade;
+		return isGT(myGrade,prevGrade);
     }
     // 对子
     else if (prevCardType == DUI_ZI
              && myCardType == DUI_ZI) {
         // 2张牌可以大过上家的牌
-        return myGrade>prevGrade;
-
+        return isGT(myGrade,prevGrade);
     }
     // 3不带
     else if (prevCardType == SAN_BU_DAI
              && myCardType == SAN_BU_DAI) {
         // 3张牌可以大过上家的牌
-        return myGrade>prevGrade;
+       return isGT(myGrade,prevGrade);
     }
     // 炸弹
     else if (prevCardType == ZHA_DAN
              && myCardType == ZHA_DAN) {
         // 4张牌可以大过上家的牌
-        return myGrade>prevGrade;
-
+        return isGT(myGrade,prevGrade);
     }
     // 3带1
     else if (prevCardType == SAN_DAI_YI
              && myCardType == SAN_DAI_YI) {
-
         // 3带1只需比较第2张牌的大小
         myGrade = myCards.at(1)->CardNum;
         prevGrade = prevCards.at(1)->CardNum;
-        return myGrade>prevGrade;
-
+        return isGT(myGrade,prevGrade);
     }
     // 4带2
     else if (prevCardType == SI_DAI_ER
              && myCardType == SI_DAI_ER) {
-
         // 4带2只需比较第3张牌的大小
         myGrade = myCards.at(2)->CardNum;
         prevGrade = prevCards.at(2)->CardNum;
-
     }
     // 顺子
     else if (prevCardType == SHUN_ZI
@@ -503,9 +500,8 @@ bool CardUtil::isOvercomePrev(QList<CardItem *> myCards, CardType myCardType, QL
             // 顺子只需比较最大的1张牌的大小
             myGrade = myCards.at(mySize - 1)->CardNum;
             prevGrade = prevCards.at(prevSize - 1)->CardNum;
-            return myGrade > prevGrade;
+            return isGT(myGrade,prevGrade);
         }
-
     }
     // 连对
     else if (prevCardType == LIAN_DUI
@@ -516,9 +512,8 @@ bool CardUtil::isOvercomePrev(QList<CardItem *> myCards, CardType myCardType, QL
             // 顺子只需比较最大的1张牌的大小
             myGrade = myCards.at(mySize - 1)->CardNum;
             prevGrade = prevCards.at(prevSize - 1)->CardNum;
-            return myGrade>prevGrade;
+            return isGT(myGrade,prevGrade);
         }
-
     }
     // 飞机
     else if (prevCardType == FEI_JI
@@ -529,11 +524,24 @@ bool CardUtil::isOvercomePrev(QList<CardItem *> myCards, CardType myCardType, QL
             // 顺子只需比较第5张牌的大小(特殊情况333444555666没有考虑，即12张的飞机，可以有2种出法)
             myGrade = myCards.at(4)->CardNum;
             prevGrade = prevCards.at(4)->CardNum;
-            return myGrade>prevGrade;
+            return isGT(myGrade,prevGrade);
         }
     }
     // 默认不能出牌
     return false;
+}
+/**
+* arg1是否比arg2大
+*/
+bool CardUtil::isGT(int arg1,int arg2)
+{
+	if((arg1>2&&arg1<14) && !(arg2>2&&arg2<14)){
+		return false;
+	}else if(!(arg1>2&&arg1<14) && (arg2>2&&arg2<14)){
+		return true;
+	}else{
+		return arg1 > arg2;
+	}
 }
 
 /**

@@ -34,6 +34,7 @@ public:
     static bool isOvercomePrev(QList<CardItem *> myCards,
                                QList<CardItem *> prevCards, CardType prevCardType);
     static CardType getCardType(QList<CardItem *> myCards);
+	static bool isGT(int arg1,int arg2);
 };
 
 #endif // CARDUTIL_H

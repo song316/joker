@@ -17,7 +17,7 @@ private:
 
 private:
     QList<CardItem *> myCardList;
-    QList<CardItem*> preCardList;
+	QList<CardItem *> handList;
     QGraphicsPixmapItem *errorTip;
     QGraphicsPixmapItem *myHead;
     QGraphicsPixmapItem *time;
@@ -29,7 +29,7 @@ public:
 signals:
     void takeouted();
 public slots:
-    void someOneTakeout();
+    
 };
 
 #endif // USERTHREAD_H

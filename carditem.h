@@ -19,7 +19,6 @@ public:
     QString bkPic;
     int CardNum;
     QString cardType;
-    QPoint *position;
     bool isSelect;
     bool isFront;
 

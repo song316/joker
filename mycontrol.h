@@ -23,7 +23,7 @@ public:
 
     TipItem *tip;
 protected:
-    QList<CardItem *> myCard;
+    QList<CardItem *> myCardList;
     QMap<QString,CardItem *> myHandCardMap;
     QGraphicsPixmapItem *errorTip;
     QGraphicsPixmapItem *myHead;

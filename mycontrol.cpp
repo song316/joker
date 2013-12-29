@@ -1,5 +1,6 @@
 ﻿#include "mycontrol.h"
 #include "centrecontrol.h"
+#include "cardutil.h"
 
 MyControl::MyControl(QObject *parent) :
     QObject(parent)
@@ -11,6 +12,7 @@ MyControl::MyControl(QObject *parent) :
     passButton = NULL;
     tipButton = NULL;
     takeoutButton = NULL;
+	tip = NULL;
 
 }
 MyControl::~MyControl()
@@ -21,6 +23,7 @@ MyControl::~MyControl()
     delete passButton;
     delete tipButton;
     delete takeoutButton;
+
     errorTip = NULL;
     myHead = NULL;
     myCardPos = NULL;
@@ -36,7 +39,7 @@ MyControl::~MyControl()
  */
 void MyControl::initGame(QList<CardItem*> itemList)
 {
-    myCard = itemList;
+    myCardList = itemList;
 
     takeoutButton = new ButtonItem;
     takeoutButton->picHight = 69;
@@ -80,34 +83,37 @@ void MyControl::initGame(QList<CardItem*> itemList)
  */
 void MyControl::takeout()
 {
-    if(myHandCardMap.size() <= 0){
-//        errorTip = new QGraphicsPixmapItem();
-//        errorTip->setPixmap(QPixmap(":images/image/error.png"));
-//        errorTip->setPos(350,600);
-//        CentreControl::getInstance()->addItem(errorTip);
-        tip = new TipItem();
-        tip->setPos(350,600);
-        CentreControl::getInstance()->addItem(tip);
+	bool flag = CardUtil::isOvercomePrev(myHandCardMap.values(),CardUtil::getCardType(myHandCardMap.values()),CentreControl::getInstance()->preCardList,CardUtil::getCardType(CentreControl::getInstance()->preCardList));
+	//如果已选牌数大于0，且大于上一手牌，则可以出牌，否则弹出错误提示。
+	if(flag){
+		//从手牌和界面中删除已选牌。
+		QMap<QString, CardItem*>::const_iterator i;
+		for(i=myHandCardMap.constBegin(); i!=myHandCardMap.constEnd(); ++i)
+		{
+			myCardList.removeOne(i.value());
+			CentreControl::getInstance()->removeItem(i.value());
+		}
+		//显示已出牌到出牌区
+		QList<CardItem*> perList = myHandCardMap.values();
+		CentreControl::getInstance()->showPreCardList(perList);
+		//清除已选牌map，并更新手牌显示。
+		myHandCardMap.clear();
+		flashMyCardList();
+		//修改三个操作按钮为不可用
+		takeoutButton->picShowPos = 2;
+		tipButton->picShowPos = 2;
+		passButton->picShowPos = 2;
+		takeoutButton->update(takeoutButton->boundingRect());
+		tipButton->update(tipButton->boundingRect());
+		passButton->update(passButton->boundingRect());
+		emit takeouted();
+	}else{
+		//生成选牌格式不对提示
+		tip = new TipItem();
+		tip->setPos(350,600);
+		CentreControl::getInstance()->addItem(tip);
         return;
     }
-    QMap<QString, CardItem*>::const_iterator i;
-    for(i=myHandCardMap.constBegin(); i!=myHandCardMap.constEnd(); ++i)
-    {
-        myCard.removeOne(i.value());
-        CentreControl::getInstance()->removeItem(i.value());
-    }
-    QList<CardItem*> perList = myHandCardMap.values();
-    CentreControl::getInstance()->showPreCardList(perList);
-    myHandCardMap.clear();
-    flashMyCardList();
-    takeoutButton->picShowPos = 2;
-    tipButton->picShowPos = 2;
-    passButton->picShowPos = 2;
-    takeoutButton->update(takeoutButton->boundingRect());
-    tipButton->update(tipButton->boundingRect());
-    passButton->update(passButton->boundingRect());
-//    CentreControl::getInstance()->updateScene();
-    emit takeouted();
 }
 /**
  * 刷新自己所有的牌。
@@ -115,14 +121,14 @@ void MyControl::takeout()
  */
 void MyControl::flashMyCardList()
 {
-    for(int i=0;i<myCard.size();i++){
-        CentreControl::getInstance()->removeItem(myCard.value(i));
+    for(int i=0;i<myCardList.size();i++){
+        CentreControl::getInstance()->removeItem(myCardList.value(i));
     }
     //显示牌
-    int x = myCardPos->x()-(95+myCard.size()*15)/2;
+    int x = myCardPos->x()-(95+myCardList.size()*15)/2;
     int y = myCardPos->y();
-    for(int i=0;i<myCard.size();i++){
-        CardItem *item = myCard.value(i);
+    for(int i=0;i<myCardList.size();i++){
+        CardItem *item = myCardList.value(i);
         item->setPos(QPoint(x+15*i,y));
         CentreControl::getInstance()->addItem(item);
     }
@@ -148,12 +154,12 @@ void MyControl::cardSelect(CardItem *item)
 void MyControl::timerEvent(QTimerEvent *event)
 {
     qDebug() << "timerevent....";
-    if(showCardIndex >= myCard.size()){
+    if(showCardIndex >= myCardList.size()){
         killTimer(event->timerId());
     }else{
-        int x = myCardPos->x()-(95+myCard.size()*15)/2;
+        int x = myCardPos->x()-(95+myCardList.size()*15)/2;
         int y = myCardPos->y();
-        CardItem *item = myCard.value(showCardIndex);
+        CardItem *item = myCardList.value(showCardIndex);
         item->setPos(QPoint(x+15*showCardIndex,y));
         connect(item,SIGNAL(onClick(CardItem*)),this,SLOT(cardSelect(CardItem*)));
         CentreControl::getInstance()->addItem(item);
@@ -165,7 +171,6 @@ void MyControl::timerEvent(QTimerEvent *event)
 
 void MyControl::someOneTakeout()
 {
-    qDebug()<<CentreControl::getInstance()->handerIndex<<"------sss-------";
     if(CentreControl::getInstance()->handerIndex == 1){
         takeoutButton->picShowPos = 0;
         tipButton->picShowPos = 0;
@@ -173,6 +178,5 @@ void MyControl::someOneTakeout()
         takeoutButton->update(takeoutButton->boundingRect());
         tipButton->update(tipButton->boundingRect());
         passButton->update(passButton->boundingRect());
-//        CentreControl::getInstance()->updateScene();
     }
 }

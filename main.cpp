@@ -2,6 +2,7 @@
 #include <QtCore/QObject>
 #include "centrecontrol.h"
 #include "mycontrol.h"
+#include <vld.h> 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -11,5 +12,5 @@ int main(int argc, char *argv[])
     QObject::connect(cc,SIGNAL(someOneTakeout()),&c,SLOT(someOneTakeout()));
     QObject::connect(&c,SIGNAL(takeouted()),cc,SLOT(takeouted()));
     cc->show();
-    return a.exec();
+	return a.exec();
 }

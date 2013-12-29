@@ -6,7 +6,6 @@
 CardItem::CardItem(QGraphicsItem *parent): QGraphicsObject(parent)
 {
     setFlag(QGraphicsItem::ItemIsSelectable,true);
-    position = NULL;
     bkPic = ":images/image/cardbk.png";
     isSelect = false;
     isFront = false;
@@ -14,8 +13,7 @@ CardItem::CardItem(QGraphicsItem *parent): QGraphicsObject(parent)
 
 CardItem::~CardItem(void)
 {
-    delete position;
-    position = NULL;
+    
 }
 
 QRectF CardItem::boundingRect() const
