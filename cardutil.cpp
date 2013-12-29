@@ -808,3 +808,287 @@ CardType CardUtil::getCardType(QList<CardItem *> myCards) {
     }
     return cardType;
 }
+
+QList<int> CardUtil::getOvercome(QList<CardItem *> myCards,
+							  QList<CardItem *> prevCards, CardType prevCardType,bool isteam){
+	QList<int> result;
+	// 默认情况：上家和自己想出的牌都符合规则
+    qSort(prevCards.begin(),prevCards.end(),lessThan);
+    qSort(myCards.begin(),myCards.end(),lessThan);
+    // 上一首牌的个数
+    int prevSize = prevCards.size();
+    int mySize = myCards.size();
+
+    // 我先出牌，上家没有牌
+    if (prevSize == 0 && mySize != 0) {
+		result.append(myCards.size()-1);
+        return result;
+    }
+
+    //如果对方为王炸，不能出牌。
+    if (prevCardType == WANG_ZHA) {
+        qDebug("上家王炸，肯定不能出。");
+        return result;
+    }
+    ////如果我有王炸，可以出牌。
+    //if (mySize >= 2) {
+    //    QList<CardItem *> cards;
+    //    cards.append(myCards.at(0));
+    //    cards.append(myCards.at(1));
+    //    if (isDuiWang(cards)) {
+    //        return result;
+    //    }
+    //}
+
+    //// 集中判断对方不是炸弹，我出炸弹的情况
+    //if (prevCardType != ZHA_DAN) {
+    //    if (mySize < 4) {
+    //        return result;
+    //    } else {
+    //        for (int i = 0; i < mySize - 3; i++) {
+    //            int grade0 = myCards.at(i)->CardNum;
+    //            int grade1 = myCards.at(i + 1)->CardNum;
+    //            int grade2 = myCards.at(i + 2)->CardNum;
+    //            int grade3 = myCards.at(i + 3)->CardNum;
+    //            if (grade1 == grade0 && grade2 == grade0
+    //                    && grade3 == grade0) {
+    //                return result;
+    //            }
+    //        }
+    //    }
+    //}
+    int prevGrade = prevCards.at(0)->CardNum;
+    // 比较2家的牌，主要有2种情况，1.我出和上家一种类型的牌，即对子管对子；
+    // 2.我出炸弹，此时，和上家的牌的类型可能不同
+    // 王炸的情况已经排除
+
+    // 上家出单
+    if (prevCardType == DAN) {
+		if(mySize >= prevSize){
+			// 一张牌可以大过上家的牌
+			for (int i = mySize - 1; i >= 0; i--) {
+				int grade = myCards.at(i)->CardNum;
+				if (grade > prevGrade) {
+					result.append(i);
+					// 只要有1张牌可以大过上家，则返回
+					break;
+				}
+			}
+		}
+    }
+    // 上家出对子
+    else if (prevCardType == DUI_ZI) {
+		if(mySize >= prevSize){
+			// 2张牌可以大过上家的牌
+			for (int i = mySize - 1; i >= 1; i--) {
+				int grade0 = myCards.at(i)->CardNum;
+				int grade1 = myCards.at(i - 1)->CardNum;
+				if (grade0 == grade1) {
+					if (grade0 > prevGrade) {
+						result.append(i);
+						result.append(i-1);
+						// 只要有1对牌可以大过上家，则返回
+						break;
+					}
+				}
+			}
+		}
+    }
+    // 上家出3不带
+    else if (prevCardType == SAN_BU_DAI) {
+		if(mySize >= prevSize){
+			// 3张牌可以大过上家的牌
+			for (int i = mySize - 1; i >= 2; i--) {
+				int grade0 = myCards.at(i)->CardNum;
+				int grade1 = myCards.at(i - 1)->CardNum;
+				int grade2 = myCards.at(i - 2)->CardNum;
+				if (grade0 == grade1 && grade0 == grade2) {
+					if (grade0 > prevGrade) {
+						result.append(i);
+						result.append(i-1);
+						result.append(i-2);
+						// 只要3张牌可以大过上家，则返回
+						break;
+					}
+				}
+			}
+		}
+    }
+    // 上家出3带1
+    else if (prevCardType == SAN_DAI_YI) {
+		if(mySize >= prevSize){
+			bool flag = false;
+			int a = -1;
+			// 3张牌可以大过上家的牌
+			for (int i = mySize - 1; i >= 2; i--) {
+				int grade0 = myCards.at(i)->CardNum;
+				int grade1 = myCards.at(i - 1)->CardNum;
+				int grade2 = myCards.at(i - 2)->CardNum;
+				if (grade0 == grade1 && grade0 == grade2) {
+					if (grade0 > prevGrade) {
+						// 只要3张牌可以大过上家，则返回true
+						a = i;
+						flag = true;
+						result.append(i);
+						result.append(i-1);
+						result.append(i-2);
+						break;
+					}
+				}
+			}
+			//如果三张已经找到，找最小的单张。
+			if(flag){
+				for (int i = mySize - 1; i >= 0; i--) {
+					if(i != a && i != a-1 && i != a-2){
+						result.append(i);
+						break;
+					}
+				}
+			}
+		}
+    }
+    // 上家出炸弹
+    else if (prevCardType == ZHA_DAN) {
+		if(mySize >= prevSize){
+			// 4张牌可以大过上家的牌
+			for (int i = mySize - 1; i >= 3; i--) {
+				int grade0 = myCards.at(i)->CardNum;
+				int grade1 = myCards.at(i - 1)->CardNum;
+				int grade2 = myCards.at(i - 2)->CardNum;
+				int grade3 = myCards.at(i - 3)->CardNum;
+				if (grade0 == grade1 && grade0 == grade2 && grade0 == grade3) {
+					if (grade0 > prevGrade) {
+						result.append(i);
+						result.append(i-1);
+						result.append(i-2);
+						result.append(i-3);
+						break;
+					}
+				}
+			}
+		}
+    }
+    // 上家出4带2
+    else if (prevCardType == SI_DAI_ER) {
+		if(mySize >= prevSize){
+			bool flag = false;
+			int a = -1;
+			// 4张牌可以大过上家的牌
+			for (int i = mySize - 1; i >= 3; i--) {
+				int grade0 = myCards.at(i)->CardNum;
+				int grade1 = myCards.at(i - 1)->CardNum;
+				int grade2 = myCards.at(i - 2)->CardNum;
+				int grade3 = myCards.at(i - 3)->CardNum;
+				if (grade0 == grade1 && grade0 == grade2 && grade0 == grade3) {
+					if (grade0 > prevGrade) {
+						result.append(i);
+						result.append(i-1);
+						result.append(i-2);
+						result.append(i-3);
+						flag = true;
+						a = i;
+						break;
+					}
+				}
+			}
+			//如果三张已经找到，找最小的两张。
+			if(flag){
+				for (int i = mySize - 1; i >= 0; i--) {
+					if(result.size()>=6){
+						break;
+					}
+					if(i != a && i != a-1 && i != a-2 && i != a-3){
+						result.append(i);
+					}
+				}	
+			}
+		}
+    }
+    // 上家出顺子
+    else if (prevCardType == SHUN_ZI) {  //????????????????
+        if (mySize >= prevSize) {
+            for (int i = mySize - 1; i >= prevSize - 1; i--) {
+                QList<CardItem *> cards;
+                for (int j = 0; j < prevSize; j++) {
+                    cards.append(myCards.at(i - j));
+                }
+                CardType myCardType = getCardType(cards);
+                if (myCardType == SHUN_ZI) {
+                    int myGrade2 = cards.at(cards.size()-1)->CardNum;// 最大的牌在最后
+                    int prevGrade2 = prevCards.at(prevSize - 1)->CardNum;// 最大的牌在最后
+                    if (myGrade2 > prevGrade2) {
+                        //return result;
+                    }
+                }
+            }
+        }
+    }
+    // 上家出连对
+    else if (prevCardType == LIAN_DUI) {        //????????????????
+        if (mySize >= prevSize) {
+            for (int i = mySize - 1; i >= prevSize - 1; i--) {
+                QList<CardItem *> cards;
+                for (int j = 0; j < prevSize; j++) {
+                    cards.append(myCards.at(i - j));
+                }
+                CardType myCardType = getCardType(cards);
+                if (myCardType == LIAN_DUI) {
+                    int myGrade2 = cards.at(cards.size()-1)->CardNum;// 最大的牌在最后,getCardType会对列表排序
+                    int prevGrade2 = prevCards.at(prevSize - 1)->CardNum;// 最大的牌在最后
+
+                    if (myGrade2 > prevGrade2) {
+                        /*return result;*/
+                    }
+                }
+            }
+        }
+
+    }else if (prevCardType == FEI_JI) {   // 上家出飞机   //????????????????
+        if (mySize >= prevSize) {
+            for (int i = mySize - 1; i >= prevSize - 1; i--) {
+                QList<CardItem *> cards;
+                for (int j = 0; j < prevSize; j++) {
+                    cards.append(myCards.at(i - j));
+                }
+                CardType myCardType = getCardType(cards);
+                if (myCardType == FEI_JI) {
+                    int myGrade4 = cards.at(4)->CardNum; //
+                    int prevGrade4 = prevCards.at(4)->CardNum;//
+                    if (myGrade4 > prevGrade4) {
+                        //return result;
+                    }
+                }
+            }
+        }
+    }
+	//如果没有匹配的，出炸弹
+	if(result.size() <= 0){
+		if(mySize >= 4){
+			// 4张牌可以大过上家的牌
+			for (int i = mySize - 1; i >= 3; i--) {
+				int grade0 = myCards.at(i)->CardNum;
+				int grade1 = myCards.at(i - 1)->CardNum;
+				int grade2 = myCards.at(i - 2)->CardNum;
+				int grade3 = myCards.at(i - 3)->CardNum;
+				if (grade0 == grade1 && grade0 == grade2 && grade0 == grade3) {
+					if (grade0 > prevGrade) {
+						result.append(i);
+						result.append(i-1);
+						result.append(i-2);
+						result.append(i-3);
+						break;
+					}
+				}
+			}
+		}else if(mySize >= 2){
+			QList<CardItem *> cards;
+			cards.append(myCards.at(0));
+			cards.append(myCards.at(1));
+			if (isDuiWang(cards)) {
+				result.append(0);
+				result.append(1);
+			}
+		}
+	}
+	return result;
+}

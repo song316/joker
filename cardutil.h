@@ -33,6 +33,8 @@ public:
                                QList<CardItem *> prevCards, CardType prevCardType);
     static bool isOvercomePrev(QList<CardItem *> myCards,
                                QList<CardItem *> prevCards, CardType prevCardType);
+	static QList<int> getOvercome(QList<CardItem *> myCards,
+							   QList<CardItem *> prevCards, CardType prevCardType,bool isteam);
     static CardType getCardType(QList<CardItem *> myCards);
 	static bool isGT(int arg1,int arg2);
 };

@@ -14,6 +14,7 @@ public:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     //void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     //void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+	bool move();
 public:
     QPixmap fkPic;
     QString bkPic;

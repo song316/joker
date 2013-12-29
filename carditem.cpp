@@ -43,7 +43,12 @@ void CardItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
 void CardItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (isFront && (event->button() == Qt::LeftButton))
+	if(event->button() == Qt::LeftButton){
+		if(move()){
+			emit onClick(this);
+		}
+	}
+    /*if (isFront && (event->button() == Qt::LeftButton))
     {
         if(isSelect){
             moveBy(0,10);
@@ -53,9 +58,24 @@ void CardItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
             moveBy(0,-10);
         }
         update(boundingRect());
-        emit onClick(this);
-    }
+        
+    }*/
 }
+bool CardItem::move(){
+	if (isFront){
+        if(isSelect){
+            moveBy(0,10);
+            isSelect = false;
+        }else{
+            isSelect = true;
+            moveBy(0,-10);
+        }
+        update(boundingRect());
+		return true;
+    }
+	return false;
+}
+
 
 //void CardItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 //{

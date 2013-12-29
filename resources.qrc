@@ -66,6 +66,7 @@
         <file>image/score_minus.png</file>
         <file>image/14a.png</file>
         <file>image/15a.png</file>
+        <file>image/landlord.png</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>sound/sendcard.wav</file>

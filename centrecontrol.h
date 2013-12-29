@@ -34,6 +34,7 @@ public:
 
 public:
     int handerIndex;
+	int master;
     QList<CardItem*> preCardList;
 	QList<CardItem*> newPreCardList;
     UserThread *leftUser;
@@ -44,7 +45,7 @@ private:
     JokerView *view;
     QGraphicsScene *scene;
     ButtonItem * startButton;
-    int master;
+    
 signals:
     void startGame(QList<CardItem*> itemList);
     void someOneTakeout();

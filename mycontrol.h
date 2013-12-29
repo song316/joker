@@ -21,11 +21,10 @@ public:
     void flashMyCardList();
     void timerEvent(QTimerEvent *event);
 
-    TipItem *tip;
+    TipItem *errorTip;
 protected:
     QList<CardItem *> myCardList;
     QMap<QString,CardItem *> myHandCardMap;
-    QGraphicsPixmapItem *errorTip;
     QGraphicsPixmapItem *myHead;
     QPoint * myCardPos;
     ButtonItem *passButton;
@@ -38,6 +37,8 @@ signals:
 public slots:
     void initGame(QList<CardItem*> item);
     void takeout();
+	void skip();
+	void tip();
     void cardSelect(CardItem *item);
     void someOneTakeout();
 };

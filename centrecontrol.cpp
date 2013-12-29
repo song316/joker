@@ -161,7 +161,9 @@ void CentreControl::removeItem(QGraphicsItem *item)
  */
 void CentreControl::updateScene()
 {
+	qDebug() << "1 ===================";
     scene->update(0,0,998,698);
+	qDebug() << "2 ===================";
 }
 /**
 *更新并显示当前已出牌
