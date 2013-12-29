@@ -43,7 +43,7 @@ void CardItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
 void CardItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (isFront && (event->button() == Qt::LeftButton) && isSelected())
+    if (isFront && (event->button() == Qt::LeftButton))
     {
         if(isSelect){
             moveBy(0,10);

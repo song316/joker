@@ -75,6 +75,7 @@ void CentreControl::startButtonClicked()
     case 1:
         foreach(CardItem * item,bottomList){
             item->isFront = true;
+			item->setSelected(true);
             myCard.append(item);
         }
         break;

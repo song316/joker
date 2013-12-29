@@ -55,6 +55,7 @@ void CardUtil::dealCard(QList<CardItem *> &myList, QList<CardItem *> &leftList, 
         int index = qrand()%(itemList.size());
         CardItem *item = itemList.takeAt(index);
         item->isFront = true;
+		item->setSelected(true);
         myList.append(item);
 
         qsrand(QTime::currentTime().msec());
