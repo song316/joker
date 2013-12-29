@@ -41,7 +41,6 @@ void UserThread::init(QList<CardItem *> cardList,QPoint * cardPos,QGraphicsPixma
 void UserThread::run()
 {
     while (true) {
-        //qDebug()<<CentreControl::getInstance()->handerIndex<<"-------------";
         QThread::msleep(3000);
         if(index == CentreControl::getInstance()->handerIndex){
             QThread::msleep(3000);
@@ -51,10 +50,9 @@ void UserThread::run()
             item->isFront = true;
             handList << item;
 			CentreControl::getInstance()->removeItem(item);
-            CentreControl::getInstance()->showPreCardList(handList);
+			emit showPreCardList(handList);
             CentreControl::getInstance()->updateScene();
             emit takeouted();
-            //qDebug()<<CentreControl::getInstance()->handerIndex<<"------out-------";
         }
     }
 }

@@ -104,6 +104,7 @@ void CentreControl::startButtonClicked()
     QPoint *rightPos = new QPoint(420,195);
     rightUser->init(rightCard,rightPos,rightHead);
     connect(rightUser,SIGNAL(takeouted()),this,SLOT(takeouted()));
+	connect(rightUser,SIGNAL(showPreCardList(QList<CardItem*> &)),this,SLOT(showPreCardList(QList<CardItem*> &)));
     rightUser->start();
 
     //创建左边玩家头像，和用户线程，并初始化
@@ -115,6 +116,7 @@ void CentreControl::startButtonClicked()
     QPoint *leftPos =new QPoint(30,195);
     leftUser->init(leftCard,leftPos,leftHead);
     connect(leftUser,SIGNAL(takeouted()),this,SLOT(takeouted()));
+	connect(rightUser,SIGNAL(showPreCardList(QList<CardItem*> &)),this,SLOT(showPreCardList(QList<CardItem*> &)));
     leftUser->start();
     //发送开始游戏信号。
     emit startGame(myCard);
@@ -167,20 +169,23 @@ void CentreControl::showPreCardList(QList<CardItem*> &cardList)
 {
     //删除已出牌。
     if(preCardList.size() > 0){
-		for(int i=0;i<preCardList.size();i++){
-			CardItem *item = preCardList.at(i);
-			if(item != NULL){
-				scene->removeItem(item);
+		try{
+			for(int i=0;i<preCardList.size();i++){
+				CardItem *item = preCardList.at(i);
+				if(item != NULL){
+					scene->removeItem(item);
+				}
 			}
+			//delete旧的已出牌。并清理perCardList.
+			qDeleteAll(preCardList);
+			preCardList.clear();		
+		}catch(QString exception){
+			qDebug() << exception;
 		}
-		//delete旧的已出牌。并清理perCardList.
-		qDeleteAll(preCardList);
-		preCardList.clear();
     }
-    preCardList = cardList;
-	//qDeleteAll(cardList);
-	cardList.clear();
-	
+	for(int i=0;i<cardList.size();i++){
+		preCardList.append(cardList.takeAt(i));		
+	}
     int x = 230;
     int y = 100;
     int j = 0;

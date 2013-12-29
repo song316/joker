@@ -121,17 +121,18 @@ void MyControl::takeout()
  */
 void MyControl::flashMyCardList()
 {
-    for(int i=0;i<myCardList.size();i++){
+    /*for(int i=0;i<myCardList.size();i++){
         CentreControl::getInstance()->removeItem(myCardList.value(i));
-    }
+    }*/
     //显示牌
     int x = myCardPos->x()-(95+myCardList.size()*15)/2;
     int y = myCardPos->y();
     for(int i=0;i<myCardList.size();i++){
         CardItem *item = myCardList.value(i);
         item->setPos(QPoint(x+15*i,y));
-        CentreControl::getInstance()->addItem(item);
+        //CentreControl::getInstance()->addItem(item);
     }
+	CentreControl::getInstance()->updateScene();
 }
 /**
  * 牌被选择了。

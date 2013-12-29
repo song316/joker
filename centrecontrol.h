@@ -30,7 +30,6 @@ public:
     void addItem(QGraphicsItem *item);
     void removeItem(QGraphicsItem *item);
     void updateScene();
-    void showPreCardList(QList<CardItem*> &preCardList);
     ~CentreControl(void);
 
 public:
@@ -51,6 +50,7 @@ signals:
 public slots:
     void startButtonClicked();
     void takeouted();
+	void showPreCardList(QList<CardItem*> &cardList);
 };
 
 #endif // CENTRECONTROL_H
