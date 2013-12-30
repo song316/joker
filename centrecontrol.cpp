@@ -105,6 +105,7 @@ void CentreControl::startButtonClicked()
     QPoint *rightPos = new QPoint(420,195);
     rightUser->init(rightCard,rightPos,rightHead);
     connect(rightUser,SIGNAL(takeouted()),this,SLOT(takeouted()));
+	//connect(this,SIGNAL(someOneTakeout()),rightUser,SLOT(someOneTakeout()));
 	connect(rightUser,SIGNAL(sig_showPreCardList()),this,SLOT(showPreCardList()));
     rightUser->start();
 
@@ -117,12 +118,16 @@ void CentreControl::startButtonClicked()
     QPoint *leftPos =new QPoint(30,195);
     leftUser->init(leftCard,leftPos,leftHead);
     connect(leftUser,SIGNAL(takeouted()),this,SLOT(takeouted()));
+	//connect(this,SIGNAL(someOneTakeout()),leftUser,SLOT(someOneTakeout()));
 	connect(leftUser,SIGNAL(sig_showPreCardList()),this,SLOT(showPreCardList()));
     leftUser->start();
-    //发送开始游戏信号。
-    emit startGame(myCard);
-    //发送出牌信号
-    emit someOneTakeout();
+    //发送初始化游戏信号。
+    emit initGame(myCard);
+}
+
+void CentreControl::startGame(){
+	//发送出牌信号。
+	emit someOneTakeout();
 }
 
 void CentreControl::nextHander()
@@ -187,7 +192,7 @@ void CentreControl::showPreCardList()
 		}
     }
 	for(int i=0;i<newPreCardList.size();i++){
-		preCardList.append(newPreCardList.takeAt(i));		
+		preCardList.append(newPreCardList.at(i));		
 	}
     int x = 230;
     int y = 100;

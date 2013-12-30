@@ -70,5 +70,6 @@
     </qresource>
     <qresource prefix="/sounds">
         <file>sound/sendcard.wav</file>
+        <file>sound/pass.wav</file>
     </qresource>
 </RCC>

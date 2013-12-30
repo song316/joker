@@ -809,8 +809,7 @@ CardType CardUtil::getCardType(QList<CardItem *> myCards) {
     return cardType;
 }
 
-QList<int> CardUtil::getOvercome(QList<CardItem *> myCards,
-							  QList<CardItem *> prevCards, CardType prevCardType,bool isteam){
+QList<int> CardUtil::getOvercome(QList<CardItem *> myCards,QList<CardItem *> prevCards, CardType prevCardType,bool isteam){
 	QList<int> result;
 	// 默认情况：上家和自己想出的牌都符合规则
     qSort(prevCards.begin(),prevCards.end(),lessThan);

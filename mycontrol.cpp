@@ -16,7 +16,7 @@ MyControl::MyControl(QObject *parent) :
 }
 MyControl::~MyControl()
 {
-    delete errorTip;
+    //delete errorTip;
     delete myHead;
     delete myCardPos;
     delete passButton;
@@ -100,7 +100,6 @@ void MyControl::takeout()
 			CentreControl::getInstance()->newPreCardList.append(i.value());
 		}
 		//显示已出牌到出牌区
-		//QList<CardItem*> perList = myHandCardMap.values();
 		CentreControl::getInstance()->showPreCardList();
 		//清除已选牌map，并更新手牌显示。
 		myHandCardMap.clear();
@@ -196,6 +195,7 @@ void MyControl::timerEvent(QTimerEvent *event)
 {
     if(showCardIndex >= myCardList.size()){
         killTimer(event->timerId());
+		emit startGame();
     }else{
         int x = myCardPos->x()-(95+myCardList.size()*15)/2;
         int y = myCardPos->y();
@@ -211,6 +211,10 @@ void MyControl::timerEvent(QTimerEvent *event)
 void MyControl::someOneTakeout()
 {
     if(CentreControl::getInstance()->handerIndex == 1){
+		if(1 == CentreControl::getInstance()->preHanderIndex){     //如果这一局没人能管住我,
+			//清理perCardList
+			CentreControl::getInstance()->showPreCardList();
+		}
         takeoutButton->picShowPos = 0;
         tipButton->picShowPos = 0;
 		if(CentreControl::getInstance()->preCardList.size() > 0){

@@ -34,6 +34,7 @@ protected:
 
 signals:
     void takeouted();
+	void startGame();
 public slots:
     void initGame(QList<CardItem*> item);
     void takeout();

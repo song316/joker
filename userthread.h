@@ -31,7 +31,7 @@ signals:
 	void sig_showPreCardList();
 
 public slots:
-    
+    void someOneTakeout();
 };
 
 #endif // USERTHREAD_H
